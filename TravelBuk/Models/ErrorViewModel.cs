@@ -1,5 +1,3 @@
-using System;
-
 namespace TravelBuk.Models
 {
     public class ErrorViewModel
