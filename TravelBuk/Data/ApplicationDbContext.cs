@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using TravelBuk.Models;
 
 namespace TravelBuk.Data
 {
@@ -9,5 +10,6 @@ namespace TravelBuk.Data
             : base(options)
         {
         }
+        public DbSet<Contact> Contact { get; set; }
     }
 }
