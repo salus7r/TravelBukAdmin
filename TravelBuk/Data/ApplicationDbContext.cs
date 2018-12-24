@@ -10,6 +10,5 @@ namespace TravelBuk.Data
             : base(options)
         {
         }
-        public DbSet<Contact> Contact { get; set; }
     }
 }

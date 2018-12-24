@@ -4,12 +4,12 @@ using System.Diagnostics;
 using TravelBuk.Models;
 
 namespace TravelBuk.Controllers {
+    [Authorize(Roles = "SuperAdmin")]
     public class HomeController : Controller {
         public IActionResult Index() {
             return View();
         }
 
-        [Authorize]
         public IActionResult Privacy() {
             return View();
         }
