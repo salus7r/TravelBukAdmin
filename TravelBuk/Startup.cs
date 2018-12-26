@@ -14,6 +14,7 @@ using System;
 using System.Threading.Tasks;
 using TravelBuk.Data;
 using TravelBuk.Helpers;
+using TravelBuk.Models;
 
 namespace TravelBuk {
     public class Startup {
@@ -35,7 +36,7 @@ namespace TravelBuk {
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<IdentityUser, IdentityRole>(options => {
+            services.AddIdentity<ApplicationUser, IdentityRole>(options => {
                 // Password settings.
                 options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = true;
@@ -131,6 +132,9 @@ namespace TravelBuk {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+                routes.MapRoute(
+                    name: "defaultWithArea",
+                    template: "{area=Identity}/{controller=Account}/{action=Index}");
             });
 
             CreateUserRoles(services).Wait();
@@ -139,15 +143,10 @@ namespace TravelBuk {
         private async Task CreateUserRoles(IServiceProvider serviceProvider) {
             try {
                 var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-                var UserManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+                var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
                 IdentityResult roleResult;
                 //Adding Super Admin Role
-                var roleCheck = await RoleManager.RoleExistsAsync("SuperAdmin");
-                if (!roleCheck) {
-                    //create the roles and seed them to the database
-                    roleResult = await RoleManager.CreateAsync(new IdentityRole("SuperAdmin"));
-                }
                 var roleCheckAdmin = await RoleManager.RoleExistsAsync("Admin");
                 if (!roleCheckAdmin) {
                     //create the roles and seed them to the database
@@ -163,7 +162,7 @@ namespace TravelBuk {
                 //login id for Admin management
                 var user = await UserManager.FindByEmailAsync("salu_s7r@yahoo.com");
                 if (user != null) {
-                    await UserManager.AddToRoleAsync(user, "SuperAdmin");
+                    await UserManager.AddToRoleAsync(user, "Admin");
                 }
             } catch (Exception ex) {
                 Console.WriteLine(ex.Message);

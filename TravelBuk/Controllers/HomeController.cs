@@ -4,7 +4,7 @@ using System.Diagnostics;
 using TravelBuk.Models;
 
 namespace TravelBuk.Controllers {
-    [Authorize(Roles = "SuperAdmin")]
+    [Authorize(Roles = "Admin")]
     public class HomeController : Controller {
         public IActionResult Index() {
             return View();
